@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using TodoAPI.AppDataContext;
 using TodoAPI.Contracts;
 using TodoAPI.Interface;
@@ -33,9 +34,10 @@ public class TodoServices(TodoDbContext context, ILogger<TodoServices> logger, I
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Todo>> GetAllAsync()
+    public async Task<IEnumerable<Todo>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var todo = await _context.Todos.ToListAsync() ?? throw new Exception("No Todo items found.");
+        return todo;
     }
 
     public Task<Todo> GetByIdAsync(Guid id)
